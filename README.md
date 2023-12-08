@@ -45,6 +45,12 @@ composer install
 php artisan key:generate
 ```
 
+### Migrate database and seed data
+
+```bash
+php artisan migrate --seed
+```
+
 ### Start local server
 
 ```make
@@ -56,6 +62,11 @@ php artisan serve
 #### Login:
 ```
 http://127.0.0.1:8000/api/login
+```
+#### default user credentials
+```text
+email    - test@test.com
+password - password
 ```
 #### validators
 ```text
