@@ -18,7 +18,8 @@ use App\Http\Controllers\AuthController;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::controller(ParcelController::class)->group(function () {
-        Route::post('/parcels');
+        Route::post('/parcels', 'store');
+        Route::put('/parcels/{parcel}', 'update');
     });
 });
 

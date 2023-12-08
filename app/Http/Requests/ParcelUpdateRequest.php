@@ -5,9 +5,10 @@ namespace App\Http\Requests;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
-class ParcelStoreRequest extends FormRequest
+class ParcelUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,8 +30,14 @@ class ParcelStoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        $parcelId = $this->route('parcel')->id;
+
         return [
-            'code'              => 'required|numeric|unique:parcels',
+            'code'              => [
+                                    'required',
+                                    'numeric',
+                                    Rule::unique('parcels')->ignore($parcelId)
+                                ],
             'price'             => 'required|numeric',
             'address'           => 'required',
             'number_of_items'   => 'required|numeric',
