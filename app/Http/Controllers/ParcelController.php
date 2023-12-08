@@ -12,7 +12,6 @@ class ParcelController extends Controller
     public function store(ParcelStoreRequest $request): JsonResponse
     {
         $validatedData = $request->validated();
-
         $parcel = Parcel::create($validatedData);
 
         return response()->json([

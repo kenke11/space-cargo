@@ -2,18 +2,23 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class ParcelStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
+     * @throws AuthorizationException
      */
     public function authorize(): bool
     {
+        if (!auth()->check()) {
+            throw new AuthorizationException('User is not authenticated.');
+        }
+
         return true;
     }
 
@@ -25,7 +30,7 @@ class ParcelStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code'              => 'required|min:8|numeric',
+            'code'              => 'required|min:8|numeric|unique:parcels',
             'price'             => 'required|numeric',
             'address'           => 'required',
             'number_of_items'   => 'required|numeric',

@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
     public function login(LoginRequest $request): JsonResponse
     {
-        $isAuth = Auth::attempt($request->only(['email', 'password'], $request->remember_me));
+        $credentials = $request->only('email', 'password');
 
-        if ($isAuth)
-        {
-            return response()->json(['user' => Auth::user()]);
+        if (auth()->attempt($credentials, $request->get('remember_me'))){
+            $user = auth()->user();
+            $token = $user->createToken('authToken')->plainTextToken;
+            return response()->json(['token' => $token, 'user' => $user]);
         }
 
         return response()->json(
