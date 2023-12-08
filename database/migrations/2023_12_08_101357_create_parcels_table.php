@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigInteger('price');
             $table->string('address');
             $table->integer('number_of_items');
-            $table->string('comment');
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }
